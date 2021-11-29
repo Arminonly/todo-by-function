@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
   const [todos, setTodos] = useState([])
   const [textInputing, setTextInputing] = useState('')
+  const [addValid, setAddValid] = useState(false)
+
+  useEffect(() => {
+    if (textInputing === '') {
+      setAddValid(false)
+    }
+    return () => {
+      setAddValid(true)
+    }
+  }, [addValid, textInputing])
 
   function addTodo(e) {
     e.preventDefault()
@@ -55,7 +65,9 @@ function App() {
             value={textInputing}
             onChange={(e) => setTextInputing(e.target.value)}
           />
-          <button type="submit">Add todo</button>
+          <button disabled={!addValid} type="submit">
+            Add todo
+          </button>
         </form>
       </header>
       <div>
